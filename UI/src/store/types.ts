@@ -1,8 +1,9 @@
-import { CREATE, DELETE } from './actionTypes';
+import { CREATE, DELETE } from './actionTypes'
 
 // Single list
 export interface Node {
     // TODO
+    id: string
 }
 
 // Describing reducer state

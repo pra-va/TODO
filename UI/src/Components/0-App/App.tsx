@@ -1,10 +1,11 @@
 import React from 'react';
-import './App.css';
+import './App.less';
+import { AppLayout } from '../Containers/1-Layout/Layout'
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello</h1>
+      <AppLayout />
     </div>
   );
 }
