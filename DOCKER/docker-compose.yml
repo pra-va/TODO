@@ -12,3 +12,41 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+    expose: ["5432"]
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pra-va@pra-va.lt
+      PGADMIN_DEFAULT_PASSWORD: student
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+
+  backend-todo:
+    image: todo-backend
+    build:
+      context: ./../BACKEND/
+      dockerfile: Dockerfile
+    volumes: 
+      - /data/springboot-docker-compose-app
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    links:
+      - postgres:localhost
+
+networks:
+  postgres:
+    driver: bridge
+  backend-todo:
+    driver: bridge
+  
+
+volumes:
+    postgres:
+    pgadmin:
+    backend-todo:
