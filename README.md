@@ -1,10 +1,15 @@
-TODO UI and BACKEND app
+#TODO UI and BACKEND app
 
-## **UI** Technologies:
+##**UI** 
+###Technologies:
 * React;
 * Redux;
 * TypeScript;
 * Ant Design.
 
-# BACKEND:
-*To be continued...*
+##**BACKEND**
+###Technologies:
+* Java 11,
+* Spring Boot 2.3.0
+* RxJava 
+
