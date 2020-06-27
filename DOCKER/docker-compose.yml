@@ -18,8 +18,8 @@ services:
     container_name: pgadmin
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: pra-va@pra-va.lt
-      PGADMIN_DEFAULT_PASSWORD: student
+      PGADMIN_DEFAULT_EMAIL: postgres
+      PGADMIN_DEFAULT_PASSWORD: postgres
     volumes:
        - pgadmin:/root/.pgadmin
     ports:
@@ -41,8 +41,6 @@ services:
 
 networks:
   postgres:
-    driver: bridge
-  backend-todo:
     driver: bridge
   
 
