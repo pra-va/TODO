@@ -21,13 +21,13 @@
 2. Run build.sh with super user rights (using bash terminal).
 
 ## **Info**
-#### Swagger:
+### Swagger:
 http://localhost:8080/swagger-ui.html
 #### Postgres:
 postgresql://postgres:5432/postgres
 * Username: postgres
 * Password: postgres
-#### PGAdmin:
+### PGAdmin:
 * http://localhost:5050
 * Username: postgres
 * Password: postgres
