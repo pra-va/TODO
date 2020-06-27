@@ -18,7 +18,7 @@
 
 ### To run backend:
 1. Navigate to the main TODO directory.
-2. Run build.sh with admin/sudo rights (using bash terminal).
+2. Run build.sh with super user rights (using bash terminal).
 
 ## **Info**
 #### Swagger:
