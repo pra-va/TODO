@@ -1,4 +1,4 @@
-package lt.pra_va.lists.model;
+package lt.pra_va.template.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,15 +12,12 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ListItemDetails {
+public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
     private long id;
-
-    @OneToOne(mappedBy = "listItemDetails")
-    private ListItem listItem;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", updatable = false, nullable = false)

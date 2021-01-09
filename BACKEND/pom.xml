@@ -22,7 +22,6 @@
     </properties>
 
     <dependencies>
-
         <!-- Spring dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -68,7 +67,7 @@
     </dependencies>
 
     <build>
-        <finalName>start</finalName>
+        <finalName>app</finalName>
         <plugins>
             <!-- Using this plugin, it is possible to start application with mvn exec:java -->
             <plugin>

@@ -1,23 +1,9 @@
-# TODO UI and BACKEND app
-
-## **UI** 
-### Technologies:
-* React;
-* Redux;
-* TypeScript;
-* Ant Design.
-
-## **BACKEND**
-### Technologies:
-* Java 11;
-* Spring Boot 2.3.0;
-* Swagger;
-* RxJava;
-* Postgres;
-* Maven.
+# Template Backend App
+Simple configuration for dockerised spring boot application with Postgres database.
+This is simple template and no testing dependencies integration is made.
 
 ### To run backend:
-1. Navigate to the main TODO directory.
+1. Navigate to the main directory.
 2. Run build.sh with super user rights (using bash terminal).
 
 ## **Info**
