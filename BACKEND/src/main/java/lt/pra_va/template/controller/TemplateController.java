@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-public class Controller {
+public class TemplateController {
 
     @Autowired
     private ListServices services;

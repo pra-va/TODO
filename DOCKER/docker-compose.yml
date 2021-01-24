@@ -13,18 +13,8 @@ services:
       - "5432:5432"
     restart: unless-stopped
     expose: ["5432"]
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: postgres
-      PGADMIN_DEFAULT_PASSWORD: postgres
-    volumes:
-       - pgadmin:/root/.pgadmin
-    ports:
-      - "5050:80"
-    restart: unless-stopped
+    networks:
+      - backend_network
 
   backend:
     image: todo-backend
@@ -35,14 +25,16 @@ services:
       - /data/springboot-docker-compose-app
     ports:
       - "8080:8080"
+      - "5005:5005"
     restart: unless-stopped
     links:
       - postgres:localhost
+    networks:
+      - backend_network
 
 networks:
-  postgres:
+  db_network:
     driver: bridge
-  
 
 volumes:
     postgres:
