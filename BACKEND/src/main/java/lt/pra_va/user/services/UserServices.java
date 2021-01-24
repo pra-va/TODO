@@ -7,6 +7,7 @@ import lt.pra_va.user.model.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -27,9 +28,11 @@ public class UserServices {
             return usernameOrEmailTakenResponse;
         }
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         User dbUser  = new User();
         dbUser.setEmail(user.getEmail());
-        dbUser.setPassword(user.getPassword());
+        dbUser.setPassword(encoder.encode(user.getPassword()));
         dbUser.setUsername(user.getUsername());
         dbUser.setDateCreated(new Date(new java.util.Date().getTime()));
         dbUser.setDateEdited(new Date(new java.util.Date().getTime()));

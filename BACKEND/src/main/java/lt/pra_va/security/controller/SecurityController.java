@@ -5,6 +5,7 @@ import lt.pra_va.security.model.AuthenticationResponse;
 import lt.pra_va.security.service.CustomUserDetailsService;
 import lt.pra_va.security.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,7 +35,7 @@ public class SecurityController {
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            return new ResponseEntity<String>("Incorrect username or password", HttpStatus.UNAUTHORIZED);
         }
 
         final UserDetails userDetails = userDetailsService

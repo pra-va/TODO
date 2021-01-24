@@ -33,7 +33,7 @@ services:
       - backend_network
 
 networks:
-  db_network:
+  backend_network:
     driver: bridge
 
 volumes:
