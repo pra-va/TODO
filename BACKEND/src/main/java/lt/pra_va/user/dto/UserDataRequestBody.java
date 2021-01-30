@@ -14,15 +14,15 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDataRequestBody {
-    @NotEmpty(message = "Username is required")
-    @Size(min = 5, max = 20, message = "Username has to be between {min} and {max} characters long.")
+    @NotEmpty(message = "{username.required}")
+    @Size(min = 5, max = 20, message = "{username.size}")
     private String username;
 
-    @NotEmpty(message = "Password is required.")
-    @Size(min = 8, max = 40, message = "Password has to be between {min} and {max} characters long.")
+    @NotEmpty(message = "{password.required}")
+    @Size(min = 8, max = 40, message = "{password.size}")
     private String password;
 
-    @Email(message = "Email format is not valid.")
-    @NotEmpty(message = "Email is required.")
+    @Email(message = "{email.format}")
+    @NotEmpty(message = "{email.required}")
     private String email;
 }
