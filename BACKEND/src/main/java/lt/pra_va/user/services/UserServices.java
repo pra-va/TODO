@@ -4,6 +4,8 @@ import lt.pra_va.user.dao.UserRepository;
 import lt.pra_va.user.dto.UserDto;
 import lt.pra_va.user.model.AuthorityType;
 import lt.pra_va.user.model.User;
+import lt.pra_va.utils.common.FieldErrorContainer;
+import lt.pra_va.utils.exceptions.DuplicateEntryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +13,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
 public class UserServices {
+
+    private final String USERNAME = "username";
+    private final String EMAIL = "email";
+    private final String USERNAME_TAKEN = "Username is taken.";
+    private final String EMAIL_TAKEN = "Email is taken.";
 
     @Autowired
     UserRepository repository;
@@ -59,18 +64,18 @@ public class UserServices {
     }
 
     public ResponseEntity<Object> checkUsernameAndEmail(String username, String email) {
-        Map<String, String> responseMap = new HashMap<>();
+        List<FieldErrorContainer> errorContainerList = new ArrayList<>();
 
         if (isUsernameTaken(username)) {
-            responseMap.put("username", "username is taken");
+            errorContainerList.add(new FieldErrorContainer(USERNAME, username, Collections.singletonList(USERNAME_TAKEN)));
         }
 
         if (isEmailTaken(email)) {
-            responseMap.put("email", "email is taken");
+            errorContainerList.add(new FieldErrorContainer(EMAIL, email, Collections.singletonList(EMAIL_TAKEN)));
         }
 
-        if (responseMap.size() > 0) {
-            return new ResponseEntity<>(responseMap, HttpStatus.CONFLICT);
+        if (errorContainerList .size() > 0) {
+            throw new DuplicateEntryException(errorContainerList);
         }
 
         return null;
