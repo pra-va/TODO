@@ -1,7 +1,5 @@
 Logger
-Unit tests
-Unique constraint validator
 Field error validation response structure refactored with improved body.
-Password pattern (regexp) verification.
-Strings internationalization.
+Trim whitespaces
 Improve role authentication.
+Liquibase implementation

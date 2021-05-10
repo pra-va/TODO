@@ -5,10 +5,12 @@ import lt.pra_va.security.model.AuthenticationResponse;
 import lt.pra_va.security.service.CustomUserDetailsService;
 import lt.pra_va.security.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,9 @@ public class SecurityController {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    @Value("${security.user.unauthorized}")
+    private String userUnauthorizedMessage;
+
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
@@ -34,8 +39,8 @@ public class SecurityController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
             );
-        } catch (BadCredentialsException e) {
-            return new ResponseEntity<String>("Incorrect username or password", HttpStatus.UNAUTHORIZED);
+        } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
+            return new ResponseEntity<String>(userUnauthorizedMessage, HttpStatus.UNAUTHORIZED);
         }
 
         final UserDetails userDetails = userDetailsService

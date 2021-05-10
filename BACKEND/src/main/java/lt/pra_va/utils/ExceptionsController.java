@@ -5,6 +5,7 @@ import lt.pra_va.utils.exceptions.DuplicateEntryException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,35 +32,31 @@ public class ExceptionsController extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
+        List<FieldErrorContainer> errors = new ArrayList<>();
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());
-        body.put("status", status.value());
+        body.put("statusCode", status.value());
+        body.put("statusMessage", status.getReasonPhrase());
 
-        List<FieldErrorContainer> errors = new ArrayList<>();
-        
-        ex.getBindingResult()
-                .getFieldErrors()
-                .forEach(fieldError -> {
-                        Optional.of(errors)
-                                .map(errorContainers -> errorContainers.stream()
-                                        .filter(errorContainer -> errorContainer.getField().equals(fieldError.getField()))
-                                        .findFirst()
-                                        .map(errorContainer -> errorContainer.addMessage(fieldError.getDefaultMessage()))
-                                        .orElse(
-                                                Optional.of(
-                                                        new FieldErrorContainer(fieldError.getField(),
-                                                                                fieldError.getRejectedValue(),
-                                                                                Collections.singletonList(
-                                                                                        fieldError.getDefaultMessage()))
-                                                                                )
-                                                    .map(errorContainer -> {
-                                                        errors.add(errorContainer);
-                                                        return errorContainer;
-                                                    })
-                                                .get()
-                                        )
-                                );
-                });
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+
+        fieldErrors.forEach(fieldError -> {
+            FieldErrorContainer fieldErrorContainer = new FieldErrorContainer(
+                    fieldError.getField(),
+                    fieldError.getRejectedValue(),
+                    fieldError.getDefaultMessage());
+
+            if (errors.contains(fieldErrorContainer)) {
+                for (FieldErrorContainer container : errors) {
+                    if (container.getField().equals(fieldError.getField())) {
+                        container.addMessage(fieldError.getDefaultMessage());
+                        break;
+                    }
+                }
+            } else {
+                errors.add(fieldErrorContainer);
+            }
+        });
 
         body.put("errors", errors);
 

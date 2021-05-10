@@ -3,6 +3,7 @@ package lt.pra_va.security.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,8 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private final String SECRET_KEY = "s5J'df9][ssF24uyfFwdn238hj8_=<>aSe25;'.";
+    @Value("${security.jwt.key}")
+    private String SECRET_KEY;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

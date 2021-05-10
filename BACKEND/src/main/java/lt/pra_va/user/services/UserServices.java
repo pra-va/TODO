@@ -28,7 +28,7 @@ public class UserServices {
     UserRepository repository;
 
     public ResponseEntity<Object> createUser(UserDto user) {
-        ResponseEntity<Object> usernameOrEmailTakenResponse = checkUsernameAndEmail(user.getUsername(), user.getEmail());
+        ResponseEntity<Object> usernameOrEmailTakenResponse = validateNewUserFields(user.getUsername(), user.getEmail());
 
         if(usernameOrEmailTakenResponse != null) {
             return usernameOrEmailTakenResponse;
@@ -42,7 +42,7 @@ public class UserServices {
                 new Date(new java.util.Date().getTime()),
                 new Date(new java.util.Date().getTime()),
                 user.getUsername(),
-                user.getPassword(),
+                encoder.encode(user.getPassword()),
                 user.getEmail(),
                 authorities,
                 true,
@@ -63,18 +63,18 @@ public class UserServices {
         return repository.existsByEmail(email);
     }
 
-    public ResponseEntity<Object> checkUsernameAndEmail(String username, String email) {
+    public ResponseEntity<Object> validateNewUserFields(String username, String email) {
         List<FieldErrorContainer> errorContainerList = new ArrayList<>();
 
         if (isUsernameTaken(username)) {
-            errorContainerList.add(new FieldErrorContainer(USERNAME, username, Collections.singletonList(USERNAME_TAKEN)));
+            errorContainerList.add(new FieldErrorContainer(USERNAME, username, USERNAME_TAKEN));
         }
 
         if (isEmailTaken(email)) {
-            errorContainerList.add(new FieldErrorContainer(EMAIL, email, Collections.singletonList(EMAIL_TAKEN)));
+            errorContainerList.add(new FieldErrorContainer(EMAIL, email, EMAIL_TAKEN));
         }
 
-        if (errorContainerList .size() > 0) {
+        if (errorContainerList.size() > 0) {
             throw new DuplicateEntryException(errorContainerList);
         }
 
